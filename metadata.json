@@ -1,0 +1,6 @@
+{
+  "name": "فاتورة كاش - حسابات وفواتير للموبايل",
+  "description": "تطبيق محاسبة وفواتير متكامل للموبايل: إدارة المبيعات، الفواتير، حسابات وديون العملاء، المخزون، والمصروفات مع طباعة فورية ومشاركة عبر واتساب.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}

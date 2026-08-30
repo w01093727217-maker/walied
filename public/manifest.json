@@ -1,0 +1,20 @@
+{
+  "short_name": "فاتورة كاش",
+  "name": "فاتورة كاش - حسابات وفواتير للموبايل",
+  "description": "تطبيق محاسبة وفواتير متكامل للموبايل: إدارة المبيعات، الفواتير، حسابات وديون العملاء، المخزون، والمصروفات",
+  "icons": [
+    {
+      "src": "/icon.svg",
+      "sizes": "192x192 512x512",
+      "type": "image/svg+xml",
+      "purpose": "any maskable"
+    }
+  ],
+  "start_url": "/",
+  "background_color": "#ffffff",
+  "theme_color": "#2563eb",
+  "display": "standalone",
+  "orientation": "portrait",
+  "dir": "rtl",
+  "lang": "ar"
+}
