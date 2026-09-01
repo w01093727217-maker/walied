@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
-import { Calculator, X, Delete, RotateCcw } from 'lucide-react';
+import { Calculator, Banknote, X, Delete, RotateCcw } from 'lucide-react';
 import { playHapticFeedback } from '../utils/helpers';
+import { useApp } from '../context/AppContext';
 
 interface QuickCalculatorModalProps {
   isOpen: boolean;
@@ -8,6 +9,7 @@ interface QuickCalculatorModalProps {
 }
 
 export const QuickCalculatorModal: React.FC<QuickCalculatorModalProps> = ({ isOpen, onClose }) => {
+  const { setShowCashCounter } = useApp();
   const [display, setDisplay] = useState('0');
   const [prevValue, setPrevValue] = useState<number | null>(null);
   const [operation, setOperation] = useState<string | null>(null);
@@ -96,9 +98,22 @@ export const QuickCalculatorModal: React.FC<QuickCalculatorModalProps> = ({ isOp
             <Calculator className="w-4 h-4 text-blue-600" />
             <h3 className="font-bold text-xs text-gray-900">آلة حاسبة سريعة</h3>
           </div>
-          <button onClick={onClose} className="p-1 text-gray-400 hover:text-gray-700 rounded-lg">
-            <X className="w-4 h-4" />
-          </button>
+          <div className="flex items-center gap-1">
+            <button
+              onClick={() => {
+                onClose();
+                setShowCashCounter(true);
+              }}
+              title="فتح عداد النقدية وجرد الفئات"
+              className="p-1.5 text-teal-700 bg-teal-50 hover:bg-teal-100 rounded-lg flex items-center gap-1 text-[11px] font-bold border border-teal-200"
+            >
+              <Banknote className="w-3.5 h-3.5" />
+              <span>عد نقدية</span>
+            </button>
+            <button onClick={onClose} className="p-1 text-gray-400 hover:text-gray-700 rounded-lg">
+              <X className="w-4 h-4" />
+            </button>
+          </div>
         </div>
 
         {/* Display */}

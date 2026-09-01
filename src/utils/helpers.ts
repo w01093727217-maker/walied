@@ -1,4 +1,4 @@
-import { Customer, Expense, Invoice, PaymentRecord, Product, StoreSettings } from '../types';
+import { Customer, Expense, Invoice, PaymentRecord, Product, SellerTarget, StoreSettings } from '../types';
 
 export function formatMoney(amount: number, symbol: string = 'ر.س'): string {
   if (isNaN(amount) || amount === null || amount === undefined) return `0.00 ${symbol}`;
@@ -129,6 +129,7 @@ export function exportDataAsJson(data: {
   invoices: Invoice[];
   expenses: Expense[];
   payments?: PaymentRecord[];
+  sellerTargets?: SellerTarget[];
 }) {
   const jsonStr = JSON.stringify(data, null, 2);
   const blob = new Blob([jsonStr], { type: 'application/json' });

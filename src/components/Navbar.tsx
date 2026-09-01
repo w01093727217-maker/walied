@@ -1,5 +1,5 @@
 import React from 'react';
-import { Calculator, Bell, Settings as SettingsIcon, Store, AlertTriangle, PlusCircle, Receipt } from 'lucide-react';
+import { Calculator, Banknote, Bell, Settings as SettingsIcon, Store, AlertTriangle, PlusCircle, Receipt } from 'lucide-react';
 import { useApp } from '../context/AppContext';
 import { formatMoney } from '../utils/helpers';
 
@@ -9,6 +9,7 @@ export const Navbar: React.FC = () => {
     lowStockProducts,
     totalCustomerDebts,
     setShowQuickCalc,
+    setShowCashCounter,
     setShowSettingsModal,
     setActiveTab,
     cashInDrawer,
@@ -64,6 +65,16 @@ export const Navbar: React.FC = () => {
               <span className="w-2 h-2 bg-amber-500 rounded-full animate-ping absolute -top-0.5 -right-0.5" />
             </button>
           )}
+
+          {/* Quick Cash Counter (عد النقدية) */}
+          <button
+            onClick={() => setShowCashCounter(true)}
+            title="عد النقدية وجرد الفئات"
+            className="p-2 sm:p-2.5 rounded-xl border border-teal-200 bg-teal-50 text-teal-700 hover:bg-teal-100 hover:border-teal-300 active:scale-95 transition-all flex items-center gap-1.5 font-bold text-xs"
+          >
+            <Banknote className="w-4 h-4 sm:w-5 sm:h-5 text-teal-600" />
+            <span className="hidden md:inline text-teal-900">عد النقدية</span>
+          </button>
 
           {/* Quick Calculator */}
           <button

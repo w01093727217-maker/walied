@@ -28,6 +28,14 @@ export const DashboardView: React.FC = () => {
     todaySales,
     todayProfit,
     todayInvoicesCount,
+    monthSales,
+    monthInvoicePaid,
+    monthDebtCollections,
+    monthTotalCollections,
+    monthRemainingDebt,
+    monthProfit,
+    monthInvoicesCount,
+    currentMonth,
     totalCustomerDebts,
     cashInDrawer,
     lowStockProducts,
@@ -41,6 +49,8 @@ export const DashboardView: React.FC = () => {
 
   const recentInvoices = invoices.slice(0, 6);
   const customersWithDebt = customers.filter(c => c.type === 'customer' && c.balance > 0).slice(0, 4);
+
+  const monthCollectionRate = monthSales > 0 ? Math.round((monthInvoicePaid / monthSales) * 100) : 0;
 
   // Generate last 7 days sales data for chart
   const last7DaysData = Array.from({ length: 7 }).map((_, i) => {
@@ -121,13 +131,13 @@ export const DashboardView: React.FC = () => {
           </div>
         </div>
 
-        {/* Customer Debts */}
+        {/* Customer Debts / Debts & Balances */}
         <div 
-          onClick={() => setActiveTab('customers')} 
+          onClick={() => setActiveTab('debts')} 
           className="bg-white border border-gray-200 p-4 rounded-2xl shadow-xs flex flex-col justify-between cursor-pointer hover:border-amber-300 transition-colors"
         >
           <div className="flex items-center justify-between">
-            <span className="text-xs font-bold text-gray-500">ديون عند العملاء</span>
+            <span className="text-xs font-bold text-gray-500">المديونية (ما لنا)</span>
             <div className="w-8 h-8 rounded-xl bg-amber-50 text-amber-600 flex items-center justify-center">
               <Users className="w-4 h-4 stroke-[2.2]" />
             </div>
@@ -137,7 +147,7 @@ export const DashboardView: React.FC = () => {
               {formatMoney(totalCustomerDebts, settings.currencySymbol)}
             </div>
             <div className="text-[11px] text-amber-700 font-semibold mt-1 flex items-center gap-1">
-              <span>كشف حسابات العملاء</span>
+              <span>إدارة المديونية والمركز المالي</span>
               <ChevronLeft className="w-3 h-3" />
             </div>
           </div>
@@ -158,6 +168,79 @@ export const DashboardView: React.FC = () => {
             <div className="text-[11px] text-gray-500 font-medium mt-1">
               إجمالي السيولة المتاحة
             </div>
+          </div>
+        </div>
+      </div>
+
+      {/* Monthly Financial Reconciliation (إجمالي الشهر: المبيعات والمبالغ المحصلة والمدفوع من الفواتير) */}
+      <div className="bg-white border border-gray-200 p-4 sm:p-5 rounded-2xl shadow-xs">
+        <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2 pb-3 mb-3 border-b border-gray-100">
+          <div className="flex items-center gap-2">
+            <div className="w-8 h-8 rounded-xl bg-teal-50 text-teal-600 flex items-center justify-center font-bold">
+              <DollarSign className="w-4 h-4" />
+            </div>
+            <div>
+              <h2 className="text-sm font-bold text-gray-900">
+                ملخص إجمالي الشهر الحالي ({currentMonth})
+              </h2>
+              <p className="text-[11px] text-gray-500">
+                ربط إجمالي المبالغ المحصلة مع المدفوع من ثمن الفواتير وسندات القبض
+              </p>
+            </div>
+          </div>
+
+          <button
+            onClick={() => setActiveTab('reports')}
+            className="text-xs text-teal-700 hover:text-teal-800 font-bold flex items-center gap-1 self-end sm:self-auto"
+          >
+            <span>تقرير الأرباح والتحصيلات المفصل</span>
+            <ChevronLeft className="w-3.5 h-3.5" />
+          </button>
+        </div>
+
+        <div className="grid grid-cols-2 lg:grid-cols-4 gap-3">
+          {/* Month Total Sales */}
+          <div className="p-3 bg-gray-50 rounded-xl border border-gray-200/80">
+            <span className="text-[11px] font-bold text-gray-500 block">مبيعات الشهر الإجمالية:</span>
+            <div className="text-base sm:text-lg font-black text-gray-900 mt-1">
+              {formatMoney(monthSales, settings.currencySymbol)}
+            </div>
+            <span className="text-[10px] text-gray-500 font-semibold block mt-0.5">
+              {monthInvoicesCount} فواتير مسجلة بالشهر
+            </span>
+          </div>
+
+          {/* Paid from Invoices */}
+          <div className="p-3 bg-emerald-50/70 rounded-xl border border-emerald-200/80">
+            <span className="text-[11px] font-bold text-emerald-800 block">المدفوع من ثمن الفواتير:</span>
+            <div className="text-base sm:text-lg font-black text-emerald-700 mt-1">
+              {formatMoney(monthInvoicePaid, settings.currencySymbol)}
+            </div>
+            <span className="text-[10px] text-emerald-600 font-semibold block mt-0.5">
+              نسبة السداد: {monthCollectionRate}% من المبيعات
+            </span>
+          </div>
+
+          {/* Total Collections in Month */}
+          <div className="p-3 bg-teal-50 rounded-xl border border-teal-200">
+            <span className="text-[11px] font-bold text-teal-900 block">إجمالي المحصل بالشهر:</span>
+            <div className="text-base sm:text-lg font-black text-teal-700 mt-1">
+              {formatMoney(monthTotalCollections, settings.currencySymbol)}
+            </div>
+            <span className="text-[10px] text-teal-700 font-bold block mt-0.5">
+              (فواتير + {formatMoney(monthDebtCollections, settings.currencySymbol)} ديون)
+            </span>
+          </div>
+
+          {/* Remaining Debt from Month */}
+          <div className="p-3 bg-amber-50/70 rounded-xl border border-amber-200/80">
+            <span className="text-[11px] font-bold text-amber-900 block">المتبقي آجل على فواتير الشهر:</span>
+            <div className="text-base sm:text-lg font-black text-amber-600 mt-1">
+              {formatMoney(monthRemainingDebt, settings.currencySymbol)}
+            </div>
+            <span className="text-[10px] text-amber-700 font-semibold block mt-0.5">
+              ديون مستحقة التحصيل
+            </span>
           </div>
         </div>
       </div>

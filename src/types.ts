@@ -18,7 +18,7 @@ export interface StoreSettings {
   allowNegativeStock: boolean;
 }
 
-export type ProductUnit = 'قطعة' | 'كجم' | 'جرام' | 'متر' | 'علبة' | 'كرتونة' | 'ساعة' | 'خدمة' | 'طقم' | 'لتر';
+export type ProductUnit = 'قطعة' | 'علبة' | 'كرتونة' | 'كرتونة صغيرة' | 'كرتونة جامبو' | 'كجم' | 'جرام' | 'متر' | 'ساعة' | 'خدمة' | 'طقم' | 'لتر';
 
 export interface Product {
   id: string;
@@ -61,11 +61,30 @@ export interface InvoiceItem {
   costPrice: number;
   discount: number; // in percentage or fixed amount
   total: number;
+  imageUrl?: string;
 }
 
 export type InvoiceType = 'sale' | 'purchase' | 'return';
 export type PaymentMethod = 'cash' | 'credit' | 'card' | 'bank_transfer' | 'multiple';
 export type InvoiceStatus = 'paid' | 'partial' | 'unpaid' | 'returned';
+
+export interface SellerTarget {
+  id: string;
+  sellerName: string;
+  role?: string;               // المسمى الوظيفي: مندوب مبيعات، كاشير، مسؤول توزيع
+  phone?: string;              // هاتف / واتساب الموظف
+  email?: string;
+  totalTargetCartons?: number;  // إجمالي الهدف الكلي بالكرتون (مثال: 1500 كرتونة)
+  targetSmallCartons: number;   // هدف كراتين صغير (باقي الهدف: 1250 كرتونة)
+  achievedSmallCartons: number; // محقق كراتين صغير
+  targetJumboCartons: number;   // هدف كراتين جامبو (منهم: 250 كرتونة)
+  achievedJumboCartons: number; // محقق كراتين جامبو
+  targetAmount?: number;
+  achievedAmount?: number;
+  period: 'monthly' | 'weekly' | 'daily';
+  notes?: string;
+  createdAt?: string;
+}
 
 export interface Invoice {
   id: string;
@@ -115,4 +134,19 @@ export interface PaymentRecord {
   notes?: string;
 }
 
-export type TabType = 'dashboard' | 'pos' | 'invoices' | 'customers' | 'inventory' | 'expenses' | 'reports';
+export interface EmployeeLoan {
+  id: string;
+  employeeId?: string;
+  employeeName: string;
+  amount: number;         // قيمة السلفة المنصرفة
+  paidAmount: number;     // المبلغ المسدد
+  remainingAmount: number;// المتبقي
+  date: string;           // تاريخ السلفة
+  dueDate?: string;       // تاريخ الاستحقاق المتوقع
+  type: 'loan' | 'advance'; // سلفة راتب / عهدة مؤقتة
+  status: 'active' | 'settled'; // نشطة / مسددة بالكامل
+  notes?: string;
+  createdAt: string;
+}
+
+export type TabType = 'dashboard' | 'pos' | 'invoices' | 'customers' | 'debts' | 'loans' | 'inventory' | 'expenses' | 'reports';

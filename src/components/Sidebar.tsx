@@ -4,6 +4,7 @@ import {
   FileText, 
   PlusCircle, 
   Users, 
+  Scale, 
   Package, 
   Wallet, 
   BarChart3, 
@@ -11,7 +12,8 @@ import {
   Calculator,
   Store,
   AlertTriangle,
-  UserCheck
+  UserCheck,
+  Coins
 } from 'lucide-react';
 import { useApp } from '../context/AppContext';
 import { TabType } from '../types';
@@ -23,6 +25,8 @@ export const Sidebar: React.FC = () => {
     setActiveTab, 
     lowStockProducts, 
     totalCustomerDebts, 
+    totalSupplierDebts,
+    totalEmployeeLoans,
     settings,
     cashInDrawer,
     setShowQuickCalc,
@@ -34,6 +38,18 @@ export const Sidebar: React.FC = () => {
     { id: 'pos', label: 'نقطة البيع (POS)', icon: PlusCircle },
     { id: 'invoices', label: 'الفواتير والمبيعات', icon: FileText },
     { id: 'customers', label: 'العملاء والحسابات', icon: Users, badge: totalCustomerDebts > 0 ? 'ديون' : undefined },
+    { 
+      id: 'debts', 
+      label: 'المديونية', 
+      icon: Scale, 
+      badge: (totalCustomerDebts > 0 || totalSupplierDebts > 0) ? 'نشطة' : undefined 
+    },
+    { 
+      id: 'loans', 
+      label: 'السلف والعهد', 
+      icon: Coins, 
+      badge: totalEmployeeLoans > 0 ? formatMoney(totalEmployeeLoans, settings.currencySymbol) : undefined 
+    },
     { id: 'inventory', label: 'المخزون والمنتجات', icon: Package, badge: lowStockProducts.length > 0 ? lowStockProducts.length : undefined },
     { id: 'expenses', label: 'المصروفات والنفقات', icon: Wallet },
     { id: 'reports', label: 'التقارير المالية', icon: BarChart3 },

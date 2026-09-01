@@ -6,6 +6,15 @@
   }
 }
 
+/* Hide scrollbar for clean horizontal swipe containers */
+.no-scrollbar::-webkit-scrollbar {
+  display: none;
+}
+.no-scrollbar {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}
+
 /* Custom scrollbars for mobile sleekness */
 ::-webkit-scrollbar {
   width: 5px;

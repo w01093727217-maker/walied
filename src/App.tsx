@@ -12,11 +12,14 @@ import { DashboardView } from './components/DashboardView';
 import { PosInvoiceView } from './components/PosInvoiceView';
 import { InvoicesListView } from './components/InvoicesListView';
 import { CustomersView } from './components/CustomersView';
+import { DebtsView } from './components/DebtsView';
+import { LoansView } from './components/LoansView';
 import { InventoryView } from './components/InventoryView';
 import { ExpensesView } from './components/ExpensesView';
 import { ReportsView } from './components/ReportsView';
 import { InvoicePrintModal } from './components/InvoicePrintModal';
 import { QuickCalculatorModal } from './components/QuickCalculatorModal';
+import { CashCounterModal } from './components/CashCounterModal';
 import { SettingsModal } from './components/SettingsModal';
 
 const MainAppContent: React.FC = () => {
@@ -28,6 +31,8 @@ const MainAppContent: React.FC = () => {
     setShowPrintModal,
     showQuickCalc,
     setShowQuickCalc,
+    showCashCounter,
+    setShowCashCounter,
     showSettingsModal,
     setShowSettingsModal,
   } = useApp();
@@ -48,6 +53,8 @@ const MainAppContent: React.FC = () => {
           {activeTab === 'pos' && <PosInvoiceView />}
           {activeTab === 'invoices' && <InvoicesListView />}
           {activeTab === 'customers' && <CustomersView />}
+          {activeTab === 'debts' && <DebtsView />}
+          {activeTab === 'loans' && <LoansView />}
           {activeTab === 'inventory' && <InventoryView />}
           {activeTab === 'expenses' && <ExpensesView />}
           {activeTab === 'reports' && <ReportsView />}
@@ -70,6 +77,11 @@ const MainAppContent: React.FC = () => {
       <QuickCalculatorModal
         isOpen={showQuickCalc}
         onClose={() => setShowQuickCalc(false)}
+      />
+
+      <CashCounterModal
+        isOpen={showCashCounter}
+        onClose={() => setShowCashCounter(false)}
       />
 
       <SettingsModal
